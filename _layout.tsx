@@ -1,25 +1,56 @@
+import { useEffect } from 'react';
 import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import * as SplashScreen from 'expo-splash-screen';
+import { useFonts } from 'expo-font';
+import {
+  DancingScript_400Regular,
+  DancingScript_700Bold,
+} from '@expo-google-fonts/dancing-script';
+import {
+  PlayfairDisplay_700Bold,
+  PlayfairDisplay_700Bold_Italic,
+} from '@expo-google-fonts/playfair-display';
+import {
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+} from '@expo-google-fonts/poppins';
+import { Sacramento_400Regular } from '@expo-google-fonts/sacramento';
 
-export default function BirthdayLayout() {
+SplashScreen.preventAutoHideAsync();
+
+export default function RootLayout() {
+  const [fontsLoaded, fontError] = useFonts({
+    DancingScript_400Regular,
+    DancingScript_700Bold,
+    PlayfairDisplay_700Bold,
+    PlayfairDisplay_700Bold_Italic,
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
+    Sacramento_400Regular,
+  });
+
+  useEffect(() => {
+    if (fontsLoaded || fontError) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
+
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        animation: 'fade',
-        contentStyle: { backgroundColor: '#FFF0F5' },
-      }}
-    >
-      <Stack.Screen name="welcome" />
-      <Stack.Screen name="home" />
-      <Stack.Screen name="games" />
-      <Stack.Screen name="quiz" />
-      <Stack.Screen name="thisorthat" />
-      <Stack.Screen name="memory" />
-      <Stack.Screen name="reflections" />
-      <Stack.Screen name="quotes" />
-      <Stack.Screen name="scrapbook" />
-      <Stack.Screen name="gifts" />
-      <Stack.Screen name="final" />
-    </Stack>
+    <>
+      <StatusBar style="dark" />
+      <Stack screenOptions={{ headerShown: false, animation: 'fade' }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="birthday" />
+      </Stack>
+    </>
   );
 }
